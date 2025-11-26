@@ -48,9 +48,7 @@ export const PokemonListPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-
       <div className="container mx-auto px-4 py-8">
-        {/* Search and Sort */}
         <div className="mb-8 space-y-4">
           <SearchBar onSearch={setSearchQuery} />
 
@@ -77,8 +75,6 @@ export const PokemonListPage = () => {
             </button>
           </div>
         </div>
-
-        {/* Pokemon Grid */}
         {isLoading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
@@ -88,18 +84,11 @@ export const PokemonListPage = () => {
             {sortedPokemons.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">
-                  {debouncedSearch
-                    ? `No Pokémon found matching "${debouncedSearch}"`
-                    : 'No Pokémon available'}
+                  No Pokémon matching your search
                 </p>
               </div>
             ) : (
               <>
-                {debouncedSearch && data && (
-                  <p className="text-gray-600 mb-4">
-                    Found {data.total} Pokémon matching "{debouncedSearch}" (showing {sortedPokemons.length} on this page)
-                  </p>
-                )}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {sortedPokemons.map((pokemon) => (
                     <PokemonCard key={pokemon.id} pokemon={pokemon} />

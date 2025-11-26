@@ -30,7 +30,7 @@ export const PokemonDetailPage = () => {
       <div className="container mx-auto px-4 py-8">
         <button
           onClick={() => navigate('/')}
-          className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="mb-6 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700"
         >
           ← Back to List
         </button>
