@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { usePokemons } from '../hooks/usePokemons';
 import { PokemonCard } from '../components/PokemonCard';
 import { SearchBar } from '../components/SearchBar';
@@ -8,20 +8,24 @@ import { Navbar } from '../components/Navbar';
 export const PokemonListPage = () => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'number'>('number');
 
-  const { data, isLoading, error } = usePokemons(page, 20);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+      setPage(1); 
+    }, 300);
 
-  const filteredAndSortedPokemons = useMemo(() => {
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const { data, isLoading, error } = usePokemons(page, 20, debouncedSearch);
+
+  const sortedPokemons = useMemo(() => {
     if (!data) return [];
 
     let pokemons = [...data.data];
-
-    if (searchQuery) {
-      pokemons = pokemons.filter((p) =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
 
     pokemons.sort((a, b) => {
       if (sortBy === 'name') {
@@ -31,7 +35,7 @@ export const PokemonListPage = () => {
     });
 
     return pokemons;
-  }, [data, searchQuery, sortBy]);
+  }, [data, sortBy]);
 
   if (error) {
     return (
@@ -55,7 +59,7 @@ export const PokemonListPage = () => {
               onClick={() => setSortBy('number')}
               className={`px-4 py-2 rounded-lg ${
                 sortBy === 'number'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-500 text-white'
                   : 'bg-gray-200 text-gray-700'
               }`}
             >
@@ -65,7 +69,7 @@ export const PokemonListPage = () => {
               onClick={() => setSortBy('name')}
               className={`px-4 py-2 rounded-lg ${
                 sortBy === 'name'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-500 text-white'
                   : 'bg-gray-200 text-gray-700'
               }`}
             >
@@ -77,17 +81,34 @@ export const PokemonListPage = () => {
         {/* Pokemon Grid */}
         {isLoading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {filteredAndSortedPokemons.map((pokemon) => (
-                <PokemonCard key={pokemon.id} pokemon={pokemon} />
-              ))}
-            </div>
+            {sortedPokemons.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">
+                  {debouncedSearch
+                    ? `No Pokémon found matching "${debouncedSearch}"`
+                    : 'No Pokémon available'}
+                </p>
+              </div>
+            ) : (
+              <>
+                {debouncedSearch && data && (
+                  <p className="text-gray-600 mb-4">
+                    Found {data.total} Pokémon matching "{debouncedSearch}" (showing {sortedPokemons.length} on this page)
+                  </p>
+                )}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {sortedPokemons.map((pokemon) => (
+                    <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                  ))}
+                </div>
+              </>
+            )}
 
-            {data && (
+            {data && data.totalPages > 1 && (
               <Pagination
                 currentPage={page}
                 totalPages={data.totalPages}

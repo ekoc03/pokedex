@@ -4,12 +4,16 @@ import { Pokemon, PokemonDetail, PaginatedResponse } from '../models/Pokemon';
 export class PokemonService {
   async getPokemons(
     page: number = 1,
-    limit: number = 20
+    limit: number = 20,
+    search?: string
   ): Promise<PaginatedResponse<Pokemon>> {
+    if (search && search.trim()) {
+      return this.searchPokemons(search.trim().toLowerCase(), page, limit);
+    }
+
     const offset = (page - 1) * limit;
     const listData = await pokeApiClient.getPokemonList(offset, limit);
 
-    // Obtener detalles de cada pokemon en paralelo
     const pokemonPromises = listData.results.map(async result => {
       const id = pokeApiClient.extractIdFromUrl(result.url);
       const details = await pokeApiClient.getPokemonByIdOrName(id);
@@ -24,6 +28,40 @@ export class PokemonService {
       page,
       limit,
       totalPages: Math.ceil(listData.count / limit),
+    };
+  }
+
+  private async searchPokemons(
+    searchTerm: string,
+    page: number,
+    limit: number
+  ): Promise<PaginatedResponse<Pokemon>> {
+    const allPokemonData = await pokeApiClient.getPokemonList(0, 10000);
+
+    const matchingPokemon = allPokemonData.results.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(searchTerm)
+    );
+
+    const total = matchingPokemon.length;
+    const totalPages = Math.ceil(total / limit);
+
+    const offset = (page - 1) * limit;
+    const paginatedResults = matchingPokemon.slice(offset, offset + limit);
+
+    const pokemonPromises = paginatedResults.map(async result => {
+      const id = pokeApiClient.extractIdFromUrl(result.url);
+      const details = await pokeApiClient.getPokemonByIdOrName(id);
+      return this.mapToBasicPokemon(details);
+    });
+
+    const pokemons = await Promise.all(pokemonPromises);
+
+    return {
+      data: pokemons,
+      total,
+      page,
+      limit,
+      totalPages,
     };
   }
 
