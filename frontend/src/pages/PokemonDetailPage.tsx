@@ -26,7 +26,6 @@ export const PokemonDetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-
       <div className="container mx-auto px-4 py-8">
         <button
           onClick={() => navigate('/')}
@@ -34,9 +33,7 @@ export const PokemonDetailPage = () => {
         >
           ← Back to List
         </button>
-
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-4xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-8">
             <p className="text-gray-500 text-lg">#{pokemon.number}</p>
             <h1 className="text-4xl font-bold capitalize mb-4">{pokemon.name}</h1>
@@ -51,8 +48,6 @@ export const PokemonDetailPage = () => {
               ))}
             </div>
           </div>
-
-          {/* Image */}
           <div className="flex justify-center mb-8">
             <img
               src={pokemon.imageUrl}
@@ -60,8 +55,6 @@ export const PokemonDetailPage = () => {
               className="w-64 h-64 object-contain"
             />
           </div>
-
-          {/* Stats */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div>
               <p className="text-gray-600">Height</p>
@@ -72,8 +65,6 @@ export const PokemonDetailPage = () => {
               <p className="text-xl font-semibold">{pokemon.weight / 10} kg</p>
             </div>
           </div>
-
-          {/* Abilities */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Abilities</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -90,8 +81,6 @@ export const PokemonDetailPage = () => {
               ))}
             </div>
           </div>
-
-          {/* Moves */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Sample Moves</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -105,8 +94,6 @@ export const PokemonDetailPage = () => {
               ))}
             </div>
           </div>
-
-          {/* Forms */}
           {pokemon.forms.length > 1 && (
             <div>
               <h2 className="text-2xl font-bold mb-4">Forms</h2>

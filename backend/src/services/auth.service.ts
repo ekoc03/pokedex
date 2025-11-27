@@ -1,24 +1,36 @@
 import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import { prisma } from '../lib/prisma';
 import { LoginRequest, LoginResponse, AuthSession } from '../models/Auth';
 
 class AuthService {
   private sessions: Map<string, AuthSession> = new Map();
 
-  login(credentials: LoginRequest): LoginResponse | null {
+  async login(credentials: LoginRequest): Promise<LoginResponse | null> {
     const { username, password } = credentials;
 
-    if (username === 'admin' && password === 'admin') {
-      const token = crypto.randomUUID();
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
 
-      this.sessions.set(token, {
-        username,
-        createdAt: new Date(),
-      });
-
-      return { token, username };
+    if (!user) {
+      return null;
     }
 
-    return null;
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return null;
+    }
+
+    const token = crypto.randomUUID();
+
+    this.sessions.set(token, {
+      username,
+      createdAt: new Date(),
+    });
+
+    return { token, username };
   }
 
   validateToken(token: string): AuthSession | null {

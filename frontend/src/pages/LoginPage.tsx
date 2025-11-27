@@ -22,7 +22,6 @@ export const LoginPage = () => {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Welcome to Pokédex
         </h1>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -37,7 +36,6 @@ export const LoginPage = () => {
               placeholder="Enter your username"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
@@ -51,13 +49,11 @@ export const LoginPage = () => {
               placeholder="Enter your password"
             />
           </div>
-
           {loginError && (
             <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
               Invalid credentials. Try admin/admin
             </div>
           )}
-
           <button
             type="submit"
             disabled={isLoggingIn}
@@ -66,7 +62,6 @@ export const LoginPage = () => {
             {isLoggingIn ? 'Logging in...' : 'Login'}
           </button>
         </form>
-
         <p className="text-center text-gray-500 text-sm mt-6">
           Demo credentials: admin / admin
         </p>

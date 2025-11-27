@@ -28,12 +28,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<PokemonListPage />} />
             <Route path="/pokemon/:id" element={<PokemonDetailPage />} />
           </Route>
-
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
