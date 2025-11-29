@@ -290,16 +290,14 @@ describe('Pokemon Routes Integration Tests', () => {
     });
 
     it('should handle malformed JSON responses gracefully', async () => {
-      // Arrange
       mockedPokeApiClient.getPokemonByIdOrName.mockResolvedValue(null as any);
 
-      // Act
       const response = await request(app)
         .get('/api/pokemons/1')
         .set('Authorization', validToken);
 
-      // Assert
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe('Pokemon not found');
     });
   });
 });

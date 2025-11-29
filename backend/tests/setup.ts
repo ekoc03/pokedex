@@ -1,11 +1,8 @@
-import { server } from '../src/index';
-
-// Clean up after all tests
-afterAll((done) => {
-  server.close(done);
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'log').mockImplementation(() => {});
 });
 
-// Mock environment variables
-process.env.JWT_SECRET = 'test-secret-key';
-process.env.NODE_ENV = 'test';
-process.env.PORT = '5001';
+afterAll(() => {
+  jest.restoreAllMocks();
+});

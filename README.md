@@ -34,7 +34,7 @@ Please propose a clean, scalable folder structure (no over-engineering) and keep
 Write Jest tests for a Node.js, Express, TypeScript and a backend using Prisma that consumes the Poke API. Follow TDD, mock external HTTP calls, validate errors, ensure high coverage, and organize by folders: tests/unit and tests/integration. Do not generate implementation code until I approve the tests.
 
 
-## Generative AI tools (Claude)
+## Activity: Generative AI tools (GenAI-Output folder)
 ### Prompt:
 Generate a REST API scaffold for a Task Management system using Node.js, Express, and TypeScript with the following requirements:
 - CRUD endpoints for Task
