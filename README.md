@@ -2,7 +2,7 @@
 
 ## User Story
 
-As a Pokémon fan, I want to log into a web app and see a list of Pokémon so I can search, sort by name or number, and search for any Pokémon. I want to click on any Pokémon to open a detail page where I can see its abilities, moves, forms, and basic info. The experience should be fast, responsive, and easy to use on any device, so I can interact with the Pokedex comfortably whether I’m on my phone or computer.
+As a Pokémon fan, I want to log into a web app and see a list of Pokémon so I can sort by name or number, and search for any Pokémon. I want to click on any Pokémon to open a detail page that shows its abilities, moves, forms, and basic info. The experience should be fast, responsive, and easy to use on any device, so I can interact with the Pokedex comfortably whether I’m on my phone or computer.
 
 ## How to Run 
 
