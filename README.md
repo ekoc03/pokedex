@@ -45,7 +45,7 @@ Generate a REST API scaffold for a Task Management system using Node.js, Express
 - Add basic authentication middleware just to check if a user is logged in, no full auth flow required
 - Ensure the code is easy to test and follows clean folder structure
 
-### How I reviewed and refined output*
+### How I reviewed and refined output
 1. Validated AI suggestions: I checked the generated routes, controllers, and services against the requirements to ensure correct field types, CRUD coverage, and proper folder structure.
 2. Corrections & improvements: I adjusted validation logic, refined error handling, and ensured status fields and date formats were properly constrained.
 3. Edge cases: I added some checks for missing fields, invalid IDs, unauthorized access.

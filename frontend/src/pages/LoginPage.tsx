@@ -59,7 +59,7 @@ export const LoginPage = () => {
             disabled={isLoggingIn}
             className="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
           >
-            {isLoggingIn ? 'Logging in...' : 'Login'}
+            {isLoggingIn ? 'Logging in' : 'Login'}
           </button>
         </form>
         <p className="text-center text-gray-500 text-sm mt-6">
